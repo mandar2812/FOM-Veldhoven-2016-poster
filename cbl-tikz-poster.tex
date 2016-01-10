@@ -41,6 +41,7 @@
 \usepackage[square,numbers]{natbib}
 \usepackage{booktabs}
 \usepackage[table,xcdraw]{xcolor}
+\usepackage{wrapfig}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -263,27 +264,27 @@
 
 \mysection{Space Weather}
 
-\vspace{2\baselineskip}
+\vspace{\baselineskip}
 
 \includegraphics[height=40cm]{nasa-space-weather}
 
 \vspace{\baselineskip}
 
-Space weather is a branch of space physics concerned with the time varying conditions within the Solar System, including the solar wind, emphasizing the space surrounding the Earth, including conditions in the magnetosphere, ionosphere and thermosphere. 
+Space weather is a branch of space physics concerned with the time varying conditions within the Solar System, including the solar wind, emphasizing the space surrounding the Earth, including conditions in the magnetosphere and ionosphere. 
 
 \begin{itemize}
-\item The sun is the main source of space weather. Sudden bursts of plasma and magnetic field structures from the sun's atmosphere called coronal mass ejections (CME) together with sudden bursts of radiation, or solar flares, all cause space weather effects here on Earth.
+\item The sun is the main driver of space weather. Bursts of plasma from the sun's atmosphere called coronal mass ejections (CME) together with sudden bursts of radiation, all cause space weather effects here on Earth.
 
-\item Coronal Mass Ejections (CMEs) can cause Geomagnetic Storms at Earth and induce extra currents in the ground that can degrade power grid operations.
+\item Coronal Mass Ejections (CMEs) can cause Geomagnetic Storms at Earth and induce extra currents in the ground that can affect power grid operations.
 
-\item Geomagnetic storms can also modify the signal from radio navigation systems (GPS and GNSS) causing degraded accuracy. Geomagnetic storms also produce the aurora. 
+\item Geomagnetic storms can also modify the signal from radio navigation systems (GPS and GNSS) causing degraded accuracy and produce aurora. 
 \end{itemize}
 
 \vspace{\baselineskip}
 
 \mysection{Geomagnetic Activity and Indexes}
 
-\vspace{2\baselineskip}
+\vspace{\baselineskip}
 
 \includegraphics[height=15cm]{aurora}
 
@@ -292,10 +293,12 @@ Space weather is a branch of space physics concerned with the time varying condi
 Due to the complex nature of the governing dynamics of geo-magnetic response to driving forces (solar wind), it is useful to use representative indexes to record and predict activity of the magnetosphere.
 
 
-\vspace{\baselineskip}
+% \vspace{\baselineskip}
 
-The table below summarizes some important activity indexes which can be considered as a proxy measurement of the geomagnetic response of the Earth towards space weather drivers.
+%The table below summarizes some important activity indexes which can be considered as a proxy measurement of the geomagnetic response of the Earth towards space weather drivers.
 
+%\vspace{\baselineskip}
+%
 \vspace{\baselineskip}
 
 \setlength{\arrayrulewidth}{1mm}
@@ -314,23 +317,57 @@ AE   & The AE index is derived from geomagnetic variations in the horizontal com
 \end{tabular}
 }
 
+\vspace{\baselineskip}
+
 \mysection{Predictive Models}
 
-\vspace{15\baselineskip}
+%\vspace{\baselineskip}
 
-Content
+%\includegraphics[height=10cm]{ml}
+
+\vspace{\baselineskip}
+
+In existing scientific literature, machine learning based predictive models for geomagnetic indexes can be classified as follows.
+
+\begin{itemize}
+    \item Non-linear auto-regressive
+    \item Neural Network based
+    \item Bayesian inference
+\end{itemize}
+
 
 \mysection{Gaussian Process Regression}
 
-\vspace{15\baselineskip}
+\vspace{\baselineskip}
 
-Content
+\includegraphics[height=10cm]{gp}
 
-\mysection{Analysis of Solar Wind Time Series}
+\vspace{\baselineskip}
+ 
+ Gaussian Process models specify statistical distributions over functions, which can be designed by choosing appropriate covariance structures to model data. Estimates produced by such models are non-parametric in nature and are akin to fitting smoothing splines to data points.
 
-\vspace{15\baselineskip}
 
-Content
+\mysection{Predicting Dst using Gaussian Process driven by Fractional Brownian Covariance}
+
+\vspace{\baselineskip}
+
+Using the solar wind speed as a predictive variable, we propose a Gaussian Process model to predict the Dst index. For this purpose we propose to use the fractional Brownian covariance function to model the correlation between Dst values at different solar wind velocities $u$ and $v$.   
+
+\vspace{\baselineskip}
+
+$C(u,v) = |u|^{2H} + |v|^{2H} - |u-v|^{2H}$
+
+\vspace{\baselineskip}
+
+The parameter $H \ \in (0,1]$ called the Hurst parameter of the fractional Brownian kernel.
+
+\begin{tabular}{ll}
+\includegraphics[height=10cm]{fit-hist}
+&
+\includegraphics[height=10cm]{fit}
+\end{tabular}
+\caption{Left:}
+\label{Fig:Race}
 
 \end{multicols}
 
