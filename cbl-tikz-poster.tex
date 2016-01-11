@@ -16,8 +16,8 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[landscape,a0b,final,a4resizeable]{a0poster}
-%\documentclass[portrait,a0b,final,a4resizeable]{a0poster}
+%\documentclass[portrait,a0,final]{a0poster}
+\documentclass[portrait,a0b,final]{a0poster}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -41,7 +41,9 @@
 \usepackage[square,numbers]{natbib}
 \usepackage{booktabs}
 \usepackage[table,xcdraw]{xcolor}
-\usepackage{wrapfig}
+%\usepackage{svg}
+%\usepackage{wrapfig}
+%\usepackage[a0paper,pass]{geometry}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -107,6 +109,7 @@
 \definecolor{lightblue}{rgb}{0, 0, 0.80}
 \definecolor{white}{rgb}{1, 1, 1}
 \definecolor{whiteblue}{rgb}{0.80, 0.80, 1}
+\definecolor{cwired}{rgb}{0.803,0.0,0.227}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -128,20 +131,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \tikzstyle{mysection} = [rectangle, 
-									draw=none, 
-									shade, 
-									outer color=camlightblue!30,
-									inner color=camlightblue!30,
-									text width=0.965\columnwidth,
-									text centered,
-									rounded corners=20pt,
-									minimum height=0.11\columnwidth]
+						draw=none, 
+						shade, 
+						outer color=cwired,
+						inner color=cwired,
+						text width=0.9\columnwidth,
+						text centered,
+						rounded corners=20pt,
+						minimum height=0.11\columnwidth]
 
 \newcommand{\mysection}[1]
 {
 \begin{center}
   \begin{tikzpicture}
-    \node[mysection] {\sffamily\bfseries\LARGE#1};
+    \node[mysection,white] {\sffamily\bfseries\LARGE#1};
   \end{tikzpicture}
 \end{center}
 }
@@ -167,7 +170,7 @@
 
 \newenvironment{poster}{
   \begin{center}
-  \begin{minipage}[c]{0.96\textwidth}
+  \begin{minipage}[c]{0.85\textwidth}
 }{
   \end{minipage} 
   \end{center}
@@ -232,7 +235,7 @@
         \includegraphics[height=\badgeheight]{cwi-logo.png}
     };
     % CBL badge
-    \node [mybox] (Inria logo) at (+0.8, 0) {
+    \node [mybox] (Inria logo) at (+0.7, 0) {
         \includegraphics[height=\badgeheight]{inria-logo.jpg}
     };
 \end{tikzpicture}
@@ -252,7 +255,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{multicols}{3}
+\begin{multicols}{2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -266,7 +269,10 @@
 
 \vspace{\baselineskip}
 
-\includegraphics[height=40cm]{nasa-space-weather}
+%\begin{center}
+%\includegraphics[height=30cm]{nasa-space-weather}
+%\end{center}
+\myfig{nasa-space-weather}{0.7}
 
 \vspace{\baselineskip}
 
@@ -274,9 +280,7 @@ Space weather is a branch of space physics concerned with the time varying condi
 
 \begin{itemize}
 \item The sun is the main driver of space weather. Bursts of plasma from the sun's atmosphere called coronal mass ejections (CME) together with sudden bursts of radiation, all cause space weather effects here on Earth.
-
 \item Coronal Mass Ejections (CMEs) can cause Geomagnetic Storms at Earth and induce extra currents in the ground that can affect power grid operations.
-
 \item Geomagnetic storms can also modify the signal from radio navigation systems (GPS and GNSS) causing degraded accuracy and produce aurora. 
 \end{itemize}
 
@@ -286,9 +290,9 @@ Space weather is a branch of space physics concerned with the time varying condi
 
 \vspace{\baselineskip}
 
-\includegraphics[height=15cm]{aurora}
+%\includegraphics[height=15cm]{aurora}
 
-\vspace{\baselineskip}
+%\vspace{\baselineskip}
 
 Due to the complex nature of the governing dynamics of geo-magnetic response to driving forces (solar wind), it is useful to use representative indexes to record and predict activity of the magnetosphere.
 
@@ -305,8 +309,8 @@ Due to the complex nature of the governing dynamics of geo-magnetic response to 
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{2.5}
  
-{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
-\begin{tabular}{ |p{2cm}|p{12cm}|p{4cm}|p{6cm}|  }
+{\rowcolors{2}{cwired!65}{cwired!55!}
+\begin{tabular}{ |p{5cm}|p{13cm}|p{6cm}|p{6cm}|  }
 \hline
 Name & Significance & Frequency & Values \\
 \hline
@@ -317,9 +321,9 @@ AE   & The AE index is derived from geomagnetic variations in the horizontal com
 \end{tabular}
 }
 
-\vspace{\baselineskip}
+%\vspace{\baselineskip}
 
-\mysection{Predictive Models}
+\mysection{Dst Models: Gaussian Process Regression}
 
 %\vspace{\baselineskip}
 
@@ -336,11 +340,11 @@ In existing scientific literature, machine learning based predictive models for 
 \end{itemize}
 
 
-\mysection{Gaussian Process Regression}
+%\mysection{Gaussian Process Regression}
 
-\vspace{\baselineskip}
+%\vspace{\baselineskip}
 
-\includegraphics[height=10cm]{gp}
+\myfig{gp}{0.45}
 
 \vspace{\baselineskip}
  
@@ -361,13 +365,11 @@ $C(u,v) = |u|^{2H} + |v|^{2H} - |u-v|^{2H}$
 
 The parameter $H \ \in (0,1]$ called the Hurst parameter of the fractional Brownian kernel.
 
-\begin{tabular}{ll}
-\includegraphics[height=10cm]{fit-hist}
-&
-\includegraphics[height=10cm]{fit}
-\end{tabular}
-\caption{Left:}
-\label{Fig:Race}
+\myfig{fit-hist}{0.65}
+
+\vspace{\baselineskip}
+
+\myfig{fit}{0.65}
 
 \end{multicols}
 
