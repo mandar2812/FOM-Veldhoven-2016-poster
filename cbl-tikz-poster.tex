@@ -226,9 +226,9 @@
     \node[inner sep=0,text width=0.5\textwidth,text centered,font=\Huge] (Title) at (0,0) 
     {
         {\sffamily\Huge \textbf{Geomagnetic activity, Space Weather and Machine Learning}}\\
-        {\sffamily\huge Mandar Chandorkar, Enrico Camporeale\textsuperscript{1}}\\
+        {\sffamily\huge Mandar Chandorkar, Enrico Camporeale}\\
         \vspace{-0.3\baselineskip}
-        {\sffamily\large 1: Multiscale Dynamics, Centrum Wiskunde Informatica}
+        {\sffamily\large Multiscale Dynamics, CWI}
     };
     % Cambridge badge
     \node [mybox] (CWI Logo) at (-0.9, 0) {
@@ -272,7 +272,9 @@
 %\begin{center}
 %\includegraphics[height=30cm]{nasa-space-weather}
 %\end{center}
-\myfig{nasa-space-weather}{0.7}
+\myfig{magnetosphere}{1.0}
+
+%\myfig{nasa-space-weather}{0.7}
 
 \vspace{\baselineskip}
 
@@ -309,7 +311,7 @@ Due to the complex nature of the governing dynamics of geo-magnetic response to 
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{2.5}
  
-{\rowcolors{2}{cwired!65}{cwired!55!}
+{\rowcolors{2}{cwired!45}{cwired!35!}
 \begin{tabular}{ |p{5cm}|p{13cm}|p{6cm}|p{6cm}|  }
 \hline
 Name & Significance & Frequency & Values \\
@@ -351,7 +353,7 @@ In existing scientific literature, machine learning based predictive models for 
  Gaussian Process models specify statistical distributions over functions, which can be designed by choosing appropriate covariance structures to model data. Estimates produced by such models are non-parametric in nature and are akin to fitting smoothing splines to data points.
 
 
-\mysection{Predicting Dst using Gaussian Process driven by Fractional Brownian Covariance}
+\mysection{Dst Gaussian Process: fBm versus RBF kernel}
 
 \vspace{\baselineskip}
 
@@ -359,7 +361,7 @@ Using the solar wind speed as a predictive variable, we propose a Gaussian Proce
 
 \vspace{\baselineskip}
 
-$C(u,v) = |u|^{2H} + |v|^{2H} - |u-v|^{2H}$
+$C(u,v) = \mathbb{E}[Dst(u) \times Dst(v)] = |u|^{2H} + |v|^{2H} - |u-v|^{2H}$
 
 \vspace{\baselineskip}
 
