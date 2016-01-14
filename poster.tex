@@ -239,7 +239,7 @@
         {\sffamily\Huge \textbf{Geomagnetic activity, Space Weather and Machine Learning}}\\
         {\sffamily\huge Mandar Chandorkar, Enrico Camporeale}\\
         \vspace{-0.3\baselineskip}
-        {\sffamily\large Multiscale Dynamics, CWI}
+        {\sffamily\large Multiscale Dynamics, CWI, Amsterdam}
     };
     % Cambridge badge
     \node [mybox] (CWI Logo) at (-0.9, 0) {
@@ -281,9 +281,9 @@
 %\myfig{nasa-space-weather}{0.5}
 %\mycaption{Impacts of Space Weather phenomena}
 
-Space weather is a branch of space physics concerned with the time varying conditions within the Solar System, including the solar wind, emphasizing the space surrounding the Earth, including conditions in the magnetosphere and ionosphere.
+Space weather is a branch of space physics concerned with the time varying conditions within the Earth's magnetosphere driven by the variability of the Sun i.e. solar corona and the particles ejected from it.
 
-\myfig{magnetosphere}{1.0}
+\myfig{magnetosphere}{0.8}
 \mycaption{Space Weather Drivers and Dynamics}
 
 \begin{itemize}
@@ -294,50 +294,42 @@ Space weather is a branch of space physics concerned with the time varying condi
 
 \vspace{\baselineskip}
 \mysection{Geomagnetic Activity and Indexes}
-\myfig{dst}{1.0}
-\mycaption{Dst as a time series}
+\myfig{dst}{0.75}
+\mycaption{Dst as a time series, depicting various levels of geomagnetic activity}
 
-Due to the complex nature of the governing dynamics of geo-magnetic response to driving forces (solar wind), it is useful to use representative indexes to record and predict activity of the magnetosphere. The Dst index is an index of magnetic activity derived from a network of near-equatorial geomagnetic observatories that measures the intensity of the globally symmetrical equatorial electro-jet (the "ring current"). Dst is maintained at the National Geo-physical Data Center (NGDC) and is available via FTP from 1957 to the present.
-
-\vspace{\baselineskip}
-\mysection{Dst Models: Gaussian Process Regression}
-
-In existing scientific literature, machine learning based predictive models for geomagnetic indexes can be classified as follows.
-
-\begin{itemize}
-    \item Non-linear auto-regressive
-    \item Neural Network based
-    \item Bayesian inference
-\end{itemize}
-
-In the Bayesian inference category, Gaussian Process models are quite robust and have not been utilized in space weather prediction. 
+Due to the complex nature of the geo-magnetic response to driving forces (solar wind), it is useful to use activity indexes to record and predict the magnetosphere's state. The Dst index is an index of magnetic activity derived from a network of near-equatorial geomagnetic observatories that measures the intensity of the globally symmetrical equatorial electro-jet (the "ring current"). Dst is maintained at the National Geo-physical Data Center (NGDC) and is available via FTP from 1957 to the present.
 
 \vspace{\baselineskip}
+\mysection{Gaussian Process Regression}
 
 \myfig{gp}{0.45} 
-\mycaption{A function drawn from a Gaussian Process prior}
+\mycaption{Gaussian Process model fitting with error bars}
+\vspace{\baselineskip}
 
-\textit{Gaussian Process} (GP) models specify statistical distributions over functions, which can be designed by choosing appropriate covariance structures to model data. Estimates produced by such models are non-parametric in nature and are akin to fitting smoothing splines to data points. In GP models, the finite dimensional distribution of the output data is a multivariate Gaussian specified by equation \ref{eq:gp}
+\textit{Gaussian Process} (GP) models specify statistical distributions over functions, which can be designed by choosing appropriate covariance structures to model data. In GP models, the finite dimensional distribution of the output data is a multivariate Gaussian specified by equation \ref{eq:gp}
 
 \begin{align}
 & y = f(x) + \epsilon \\
-& f \sim \mathcal{GP}(m(x), C(x,x^{'})) \\
+& f \sim \mathcal{GP}(m(x), C(x,x')) \\
 & \left(\mathbf{y} \ \ \mathbf{f_*} \right)^T \sim 
-\mathcal{N}\left(\mathbf{0}, \left[ \begin{matrix} K(X, X) + \sigma^{2}_n \it{I} & K(X, X_*) \\ K(X_*, X) & K(X_*, X_*) \end{matrix} \right ] \right) 
+\mathcal{N}\left(\mathbf{0}, \left[ \begin{matrix} K(X, X) + \sigma^{2} \it{I} & K(X, X_*) \\ K(X_*, X) & K(X_*, X_*) \end{matrix} \right ] \right) 
 \label{eq:gp}
 \end{align}
 
+In order to make predictions using GP models, one must calculate the posterior predictive distribution $\mathbf{f_*}|X,\mathbf{y},X_*$ which is also a multi-variate Gaussian shown in equations \ref{eq:posterior}, \ref{eq:posterior:mean} and \ref{eq:posterior:cov}.
+
 \begin{align}
-& \mathbf{f_*}|X,\mathbf{y},X_* \sim \mathcal{N}(\mathbf{\bar{f_*}}, cov(\mathbf{f_*}))  \\
-& \mathbf{\bar{f_*}} \overset{\triangle}{=} \mathbb{E}[\mathbf{f_*}|X,y,X_*] = K(X_*,X)[K(X,X) + \sigma^{2}_n \it{I}]^{-1} \mathbf{y}  \\
+& \mathbf{f_*}|X,\mathbf{y},X_* \sim \mathcal{N}(\mathbf{\bar{f_*}}, cov(\mathbf{f_*}))  \label{eq:posterior}\\
+& \mathbf{\bar{f_*}} \overset{\triangle}{=} \mathbb{E}[\mathbf{f_*}|X,y,X_*] = K(X_*,X)[K(X,X) + \sigma^{2}_n \it{I}]^{-1} \mathbf{y} \label{eq:posterior:mean} \\
 & cov(\mathbf{f_*}) = K(X_*,X_*) - K(X_*,X)[K(X,X) + \sigma^{2}_n \it{I}]^{-1}K(X,X_*) 
-\label{eq:posterior}
+\label{eq:posterior:cov}
 \end{align}
 
-In order to make predictions using GP models, one must calculate the posterior predictive distribution $\mathbf{f_*}|X,\mathbf{y},X_*$ which is also a multi-variate Gaussian shown in equation \ref{eq:posterior}.
+\myfig{GP_text}{0.75} 
+\mycaption{Gaussian Process posterior distribution with two data points}
 \vspace{\baselineskip}
-\mysection{Dst Gaussian Process: FBM versus RBF kernel}
 
+\mysection{Gaussian Process Dst prediction}
 \begin{align}
     & Dst(v) \sim \mathcal{GP}(m(v), C(u,v)) \label{eq:DstGP}\\
     & C_{rbf}(u,v) = \mathbb{E}[Dst(u) \times Dst(v)] =  e^{-\frac{1}{2}|u-v|^2/\sigma^2} \label{eq:rbfcov}\\
@@ -346,6 +338,7 @@ In order to make predictions using GP models, one must calculate the posterior p
 
 Using the solar wind speed as a predictive variable, we train a Gaussian Process model to predict the Dst index \ref{eq:DstGP}. We compare the regression performance of the \textit{Radial Basis Function} (RBF) kernel versus the \textit{Fractional Brownian Motion} (FBM) kernel (eq. \ref{eq:rbfcov},\ref{eq:fbmcov}). $H \ \in (0,1]$ and $\sigma$ are the hyper-parameters of the FBM and RBF kernels respectively.
 
+\vspace{\baselineskip}
 
 \begin{tabular}{ll}
 \includegraphics[width=0.45\hsize]{rbf-hist} & \includegraphics[width=0.45\hsize]{rbf-fit}   \\
@@ -360,7 +353,7 @@ Using the solar wind speed as a predictive variable, we train a Gaussian Process
 {\rowcolors{2}{cwired!45}{cwired!35!}
 \begin{tabular}{ |p{5cm}|p{5cm}|p{5cm}|p{5cm}|p{5cm}|  }
 \hline
-Kernel & Model Size: Train, Test & MAE & RMSE & $R^2$\\
+Kernel & Data: Train, Test & MAE & RMSE & $R^2$\\
 \hline
 RBF  & $300$,$1000$ & $1.5044$ & $6.9752$ & $0.7925$ \\
 FBM  & $300$,$1000$ & $0.0312$ & $0.0461$ & $0.9999$ \\
@@ -369,7 +362,7 @@ FBM  & $300$,$1000$ & $0.0312$ & $0.0461$ & $0.9999$ \\
 }
 \vspace{\baselineskip}
 
-The two models are then trained and tested on sub-sampled versions of the Omni data for the years 2007 and 2006 respectively. Figure \ref{fig:plots} compares the residual histograms and goodness of fit for both models. The results in figure 3 and the table above show that:
+The two models are then trained and tested on sub-sampled versions of the Omni data for the years 2007 and 2006 respectively. Figure 5 compares the residual histograms and goodness of fit for both models. These results along with table above show that:
 \begin{itemize}
     \item Although the RBF based model gives a satisfactory fit, it performs poorly in predicting outlying events like geomagnetic storms ($Dst \leq -100 nT$)
     \item From the residual histograms it can be observed that the FBM based GP model provides more robust Dst predictions in greatly varying solar wind conditions. 
